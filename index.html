@@ -1,46 +1,176 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Temp Tracker</title>
-  <link rel="stylesheet" href="./estilos.css" />   
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Temp Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .contenedor {
+            width: 100%;
+            max-width: 400px;
+            background: linear-gradient(135deg, #4b11e2, #182848);
+            color: #ffffff;
+            border-radius: 25px;
+            padding: 30px 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .buscador {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            padding: 5px 10px 5px 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .buscador input {
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: #fff;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .buscador input::placeholder {
+            color: #ddd;
+        }
+
+        .buscador button {
+            border: 0;
+            outline: 0;
+            background: #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .buscador button svg {
+            width: 20px;
+            height: 20px;
+            fill: #333;
+        }
+
+        .clima-info {
+            margin-top: 25px;
+        }
+
+        .clima-icono {
+            width: 100px;
+            height: 100px;
+            margin: 10px auto;
+        }
+
+        .clima-texto {
+            font-size: 18px;
+            font-weight: 500;
+            text-transform: capitalize;
+            color: #e0e0e0;
+        }
+
+        .temp {
+            font-size: 65px;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+
+        .ciudad {
+            font-size: 28px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .detalles {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 35px;
+            padding: 0 10px;
+        }
+
+        .col {
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .col svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+            margin-right: 12px;
+        }
+
+        .col div p:first-child {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .col div p:last-child {
+            font-size: 13px;
+            color: #ccc;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="contenedor">
-    <div class="buscador">
-      <input type="text" placeholder="Ingresa nombre de la ciudad" spellcheck="false" autocomplete="off" id="input-ciudad" />
-      <button onclick="obtenerClima()">
-        <img src="imagenes/buscar.png" alt="Buscar" />
-      </button>
+    <div class="contenedor">
+        <div class="buscador">
+            <input type="text" placeholder="Ingresa una ciudad" spellcheck="false" autocomplete="off" id="input-ciudad" />
+            <button onclick="obtenerClima()">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </button>
+        </div>
+
+        <div class="clima-info">
+            <p class="clima-texto">Esperando ciudad...</p>
+            <img src="https://cdn.weatherapi.com/weather/64x64/day/116.png" class="clima-icono" alt="Icono clima" />
+            <h1 class="temp">--°c</h1>
+            <h2 class="ciudad">--</h2>
+        </div>
+
+        <div class="detalles">
+            <div class="col">
+                <svg viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                <div>
+                    <p class="humedad">--%</p>
+                    <p>Humedad</p>
+                </div>
+            </div>
+            <div class="col">
+                <svg viewBox="0 0 24 24"><path d="M14.5 17a2.5 2.5 0 0 0 0-5H2V10h12.5a4.5 4.5 0 1 1 0 9H9v-2h5.5zM19 6.5A2.5 2.5 0 0 0 16.5 4H2v2h14.5a.5.5 0 0 1 0 1H11v2h5.5A2.5 2.5 0 0 0 19 6.5z"/></svg>
+                <div>
+                    <p class="viento">-- km/h</p>
+                    <p>Viento</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="clima-info">
-      <p class="clima-texto">Parcialmente nublado</p>
-      <img src="imagenes/clima-ejemplo.webp" class="clima-icono" alt="Icono clima" />
-      <h1 class="temp">22°c</h1>
-      <h2 class="ciudad">Huancayo</h2>
-
-      <div class="detalles">
-        <div class="col">
-          <img src="imagenes/humedad.png" alt="Humedad" />
-          <div>
-            <p class="humedad">50%</p>
-            <p>Humedad</p>
-          </div>
-        </div>
-        <div class="col">
-          <img src="imagenes/viento.png" alt="Viento" />
-          <div>
-            <p class="viento">15 km/h</p>
-            <p>Viento</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="./codigo.js"></script>
+    <script src="codigo.js"></script>
 </body>
 </html>
